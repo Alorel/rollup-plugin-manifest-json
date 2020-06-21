@@ -75,21 +75,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@alorel/rollup-plugin-threaded-terser@npm:1.0.1":
-  version: 1.0.1
-  resolution: "@alorel/rollup-plugin-threaded-terser@npm:1.0.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40alorel%2Frollup-plugin-threaded-terser%2F1.0.1%2F71bf8d8ab94bbea808bef09621c871a6f27f773b8a24d90c67cc59d6c501aae9"
-  dependencies:
-    "@types/terser": ^4.0.0 || ^3.12.0
-  peerDependencies:
-    rollup: ^2.6.0 || ^1.30.0
-    terser: ^4.6.0
-  checksum: 2/520bc19527664235f25f989c87f0f9827ec61f432abcdcf8c5edb523726f1492c06cf09163863e39dbeccec49f5be0e9f9dc0f31697b8187c5f2a770c0419d90
-  languageName: node
-  linkType: hard
-
-"@alorel/xxxxxxxxxxxxxxxxxxxxxx@workspace:.":
+"@alorel/rollup-plugin-manifest-json@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@alorel/xxxxxxxxxxxxxxxxxxxxxx@workspace:."
+  resolution: "@alorel/rollup-plugin-manifest-json@workspace:."
   dependencies:
     "@alorel-personal/conventional-changelog-alorel": ^2.1.3
     "@alorel-personal/tslint-rules": ^5.0.7
@@ -115,6 +103,18 @@ __metadata:
     typescript: ^3.9.5
   languageName: unknown
   linkType: soft
+
+"@alorel/rollup-plugin-threaded-terser@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@alorel/rollup-plugin-threaded-terser@npm:1.0.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40alorel%2Frollup-plugin-threaded-terser%2F1.0.1%2F71bf8d8ab94bbea808bef09621c871a6f27f773b8a24d90c67cc59d6c501aae9"
+  dependencies:
+    "@types/terser": ^4.0.0 || ^3.12.0
+  peerDependencies:
+    rollup: ^2.6.0 || ^1.30.0
+    terser: ^4.6.0
+  checksum: 2/520bc19527664235f25f989c87f0f9827ec61f432abcdcf8c5edb523726f1492c06cf09163863e39dbeccec49f5be0e9f9dc0f31697b8187c5f2a770c0419d90
+  languageName: node
+  linkType: hard
 
 "@babel/code-frame@npm:^7.0.0":
   version: 7.8.3

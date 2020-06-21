@@ -1,7 +1,7 @@
 {
-  "name": "@alorel/xxxxxxxxxxxxxxxxxxxxxx",
+  "name": "@alorel/rollup-plugin-manifest-json",
   "version": "0.0.0",
-  "description": "xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "description": "Rollup plugin for generating a manifest.json",
   "main": "index.js",
   "module": "esm5/index.js",
   "esm5": "esm5/index.js",
@@ -10,7 +10,7 @@
   "fesm2015": "bundle/fesm2015.js",
   "jsdelivr": "bundle/umd.min.js",
   "browser": "bundle/umd.js",
-  "repository": "https://github.com/Alorel/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.git",
+  "repository": "https://github.com/Alorel/rollup-plugin-manifest-json.git",
   "types": "index.d.ts",
   "typings": "index.d.ts",
   "author": "Arturas Molcanovas <a.molcanovas@gmail.com>",

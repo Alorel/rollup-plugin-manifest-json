@@ -9,12 +9,8 @@ import {dtsPlugin} from '@alorel/rollup-plugin-dts';
 import * as pkgJson from './package.json';
 import typescript from 'rollup-plugin-typescript2';
 
-const umdName = 'MyLibrary';
-const umdGlobals = {};
-
 const distDir = join(__dirname, 'dist');
 const srcDir = join(__dirname, 'src');
-const bundleDir = join(distDir, 'bundle');
 
 const clean$ = cleanPlugin({dir: distDir});
 const banner$ = fs.readFile(join(__dirname, 'LICENSE'), 'utf8')
@@ -31,13 +27,6 @@ const baseInput = join(srcDir, 'index.ts');
 
 const baseSettings = {
   input: join(srcDir, 'index.ts'),
-  external: Array.from(
-    new Set(
-      Object.keys(Object.keys(pkgJson.dependencies || {}))
-        .concat(Object.keys(pkgJson.peerDependencies || {}))
-        .filter(p => !p.startsWith('@types/'))
-    )
-  ),
   preserveModules: true,
   watch: {
     exclude: 'node_modules/*'
