@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/Alorel/rollup-plugin-manifest-json/compare/1.1.1...1.2.0) (2020-06-21)
+
+
+### Features
+
+* Allow replacement queries to be strings ([4fd1927](https://github.com/Alorel/rollup-plugin-manifest-json/commit/4fd1927c47299b8203b66dcc86ce4ed3e6f4d868))
+
 ## [1.1.1](https://github.com/Alorel/rollup-plugin-manifest-json/compare/1.1.0...1.1.1) (2020-06-21)
 
 
