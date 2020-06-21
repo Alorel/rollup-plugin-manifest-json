@@ -15,6 +15,7 @@ export function manifestJsonPlugin(opts: ManifestJsonPluginOptions): OutputPlugi
     baseDir = process.cwd(),
     basePath = '/',
     fileName,
+    replace,
     input,
     minify = true,
     watch = false
@@ -38,7 +39,7 @@ export function manifestJsonPlugin(opts: ManifestJsonPluginOptions): OutputPlugi
     opts
   );
 
-  const reader = new InputReader(input);
+  const reader = new InputReader(input, replace);
   let renderer: Renderer;
 
   const returnedPlugin: OutputPlugin | Plugin = {

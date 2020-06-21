@@ -13,7 +13,7 @@ export class InputReader {
 
   public constructor(
     private readonly input: string,
-    private readonly replacements?: ManifestJsonPluginOptions['replace']
+    private readonly replacements: ManifestJsonPluginOptions['replace'] | undefined
   ) {
   }
 
