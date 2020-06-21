@@ -43,6 +43,12 @@ interface Base {
     fileName: string;
     /** Manifest.json input file */
     input: string;
+
+    /**
+     * Array of regular expression search patterns & replacements. Effectively does
+     * manifestJsonContents.replace(reg, string);
+     */
+    replace?: [[RegExp, string]];
     /**
      * Whether to minify the output or not
      * @default true

@@ -1,14 +1,20 @@
 import {BoundClass, BoundMethod} from '@aloreljs/bound-decorator';
 import {promises as fs} from 'fs';
+import {ManifestJsonPluginOptions} from '../Options';
 
 /** @internal */
 @BoundClass()
 export class InputReader {
   public changed = true;
 
-  public lastReadContents: string;
+  private lastProcessedContents: string;
 
-  public constructor(private readonly input: string) {
+  private lastReadContents: string;
+
+  public constructor(
+    private readonly input: string,
+    private readonly replacements?: ManifestJsonPluginOptions['replace']
+  ) {
   }
 
   public read(): Promise<string> {
@@ -25,8 +31,21 @@ export class InputReader {
   @BoundMethod()
   private onReadSuccess(contents: string): string {
     this.changed = contents !== this.lastReadContents;
-    this.lastReadContents = contents;
 
-    return contents;
+    if (this.changed) {
+      this.processContents(contents);
+    }
+
+    return this.lastProcessedContents;
+  }
+
+  private processContents(contents: string): void {
+    this.lastReadContents = contents;
+    if (this.replacements?.length) {
+      for (const [reg, replacement] of this.replacements) {
+        contents = contents.replace(reg, replacement);
+      }
+    }
+    this.lastProcessedContents = contents;
   }
 }

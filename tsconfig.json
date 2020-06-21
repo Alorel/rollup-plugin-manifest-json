@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2018",
     "sourceMap": false,
     "module": "es2015"
   },

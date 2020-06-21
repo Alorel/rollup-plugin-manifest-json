@@ -6,6 +6,12 @@ interface Base {
   baseDir?: string;
 
   /**
+   * Array of regular expression search patterns & replacements. Effectively does
+   * manifestJsonContents.replace(reg, string);
+   */
+  replace?: [[RegExp, string]];
+
+  /**
    * Your public path
    * @default /
    */
