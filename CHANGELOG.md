@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Alorel/rollup-plugin-manifest-json/compare/1.0.1...1.1.0) (2020-06-21)
+
+
+### Features
+
+* Add string replacement functionality ([7c2c7ed](https://github.com/Alorel/rollup-plugin-manifest-json/commit/7c2c7ed9b9187594d88d152227a444b515d9bcfa))
+
 ## [1.0.1](https://github.com/Alorel/rollup-plugin-manifest-json/compare/1.0.0...1.0.1) (2020-06-21)
 
 
