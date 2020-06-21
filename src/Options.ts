@@ -9,7 +9,7 @@ interface Base {
    * Array of regular expression search patterns & replacements. Effectively does
    * manifestJsonContents.replace(reg, string);
    */
-  replace?: [[RegExp, string]];
+  replace?: [[RegExp | string, string]];
 
   /**
    * Your public path

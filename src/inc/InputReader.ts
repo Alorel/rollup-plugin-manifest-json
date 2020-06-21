@@ -11,10 +11,16 @@ export class InputReader {
 
   private lastReadContents: string;
 
+  private readonly replacements: [RegExp, string][];
+
   public constructor(
     private readonly input: string,
-    private readonly replacements: ManifestJsonPluginOptions['replace'] | undefined
+    replacements: ManifestJsonPluginOptions['replace'] | undefined
   ) {
+    this.replacements = (!replacements || !replacements.length) ? [] :
+      replacements.map(([query, replace]): [RegExp, string] => (
+        [typeof query === 'string' ? new RegExp(query, 'g') : query, replace]
+      ));
   }
 
   public read(): Promise<string> {
@@ -41,7 +47,7 @@ export class InputReader {
 
   private processContents(contents: string): void {
     this.lastReadContents = contents;
-    if (this.replacements?.length) {
+    if (this.replacements.length) {
       for (const [reg, replacement] of this.replacements) {
         contents = contents.replace(reg, replacement);
       }
