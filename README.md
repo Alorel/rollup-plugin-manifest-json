@@ -1,7 +1,7 @@
 Rollup plugin for generating a manifest.json.
 
 Overall it just copies over a json file and replaces any relative
-URLs with emitted asset links.
+URLs in icons and screenshots with emitted asset links.
 
 # Installation
 

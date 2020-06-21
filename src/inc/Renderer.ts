@@ -2,16 +2,18 @@ import {promises as fs} from 'fs';
 import {relative} from 'path';
 import {PluginContext} from 'rollup';
 import {ManifestJsonPluginOptions} from '../Options';
+import {ImageKey} from './ImageKey';
+import {JsonInput} from './JsonInput';
 import {noop} from './noop';
-import {ContentScriptType, ReplacedKeys} from './ReplacedKeys';
+import {ReplacedKeys} from './ReplacedKeys';
 
 /** @internal */
 export class Renderer {
   public hasChanged = false;
 
-  public readonly replacedKeys: ReplacedKeys = {
-    contentScripts: [],
-    icons: []
+  public readonly replacements: ReplacedKeys = {
+    icons: [],
+    screenshots: []
   };
 
   private readonly changeOperations: Promise<any>[] = [];
@@ -19,15 +21,15 @@ export class Renderer {
   private ctx: PluginContext;
 
   public constructor(
-    public readonly json: { [k: string]: any },
+    public readonly json: JsonInput,
     private readonly opts: ManifestJsonPluginOptions
   ) {
   }
 
   public process(ctx: PluginContext): Promise<void> {
     this.ctx = ctx;
-    this.processIcons();
-    this.processContentScripts();
+    this.processImages('icons');
+    this.processImages('screenshots');
 
     if (this.changeOperations.length) {
       this.hasChanged = true;
@@ -40,61 +42,24 @@ export class Renderer {
     }
   }
 
-  private processContentScripts(): void {
-    const scripts: any[] = this.json.content_scripts;
-    if (!scripts) {
+  private processImages(key: ImageKey): void {
+    const array = this.json[key];
+    if (!array) {
       return;
     }
 
-    const types: ContentScriptType[] = ['js', 'css'];
+    for (let i = 0; i < array.length; i++) {
+      const file = array[i];
 
-    for (let scriptIndex = 0; scriptIndex < scripts.length; scriptIndex++) {
-      const script = scripts[scriptIndex];
-
-      for (const type of types) {
-        const section: string[] = script[type];
-        if (!section) {
-          continue;
-        }
-
-        for (let sectionIndex = 0; sectionIndex < section.length; sectionIndex++) {
-          const url = section[sectionIndex];
-
-          this.changeOperations.push(
-            this.resolveAndReplaceUrl(url)
-              .then(assetId => {
-                if (!assetId) {
-                  return;
-                }
-
-                section[scriptIndex] = assetId;
-                this.replacedKeys.contentScripts.push({
-                  scriptIndex,
-                  sectionIndex,
-                  type
-                });
-              })
-          );
-        }
-      }
-    }
-  }
-
-  private processIcons(): void {
-    if (!this.json.icons) {
-      return;
-    }
-
-    for (const [key, url] of Object.entries(this.json.icons as { [k: string]: string })) {
       this.changeOperations.push(
-        this.resolveAndReplaceUrl(url)
+        this.resolveAndReplaceUrl(file.src)
           .then(assetId => {
             if (!assetId) {
               return;
             }
 
-            this.json.icons[key] = assetId;
-            this.replacedKeys.icons.push(key);
+            file.src = assetId;
+            this.replacements[key].push(i);
           })
       );
     }

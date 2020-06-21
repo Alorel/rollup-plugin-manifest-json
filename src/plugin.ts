@@ -1,4 +1,5 @@
 import {OutputPlugin, Plugin, PluginContext} from 'rollup';
+import {ImageKey} from './inc/ImageKey';
 import {InputReader} from './inc/InputReader';
 import {Renderer} from './inc/Renderer';
 import {ManifestJsonPluginInputOptions, ManifestJsonPluginOptions, ManifestJsonPluginOutputOptions} from './Options';
@@ -47,14 +48,13 @@ export function manifestJsonPlugin(opts: ManifestJsonPluginOptions): OutputPlugi
       } else if (!renderer.hasChanged) {
         return;
       } else {
-        const {json, replacedKeys} = renderer;
+        const {json, replacements} = renderer;
 
-        for (const k of replacedKeys.icons) {
-          json.icons[k] = basePath + this.getFileName(json.icons[k]);
-        }
-        for (const {scriptIndex, sectionIndex, type} of replacedKeys.contentScripts) {
-          const section = json.content_scripts[scriptIndex][type];
-          section[sectionIndex] = basePath + this.getFileName(section[sectionIndex]);
+        for (const key of ['icons', 'screenshots'] as ImageKey[]) {
+          for (const iconIndex of replacements[key]) {
+            const image = json[key]![iconIndex];
+            image.src = basePath + this.getFileName(image.src);
+          }
         }
 
         const stringifyArgs: [any, null?, number?] = [json];
