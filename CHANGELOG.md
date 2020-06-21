@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/Alorel/rollup-plugin-manifest-json/compare/1.1.0...1.1.1) (2020-06-21)
+
+
+### Bug Fixes
+
+* **replacements:** Actually apply replacements ([a15d6ed](https://github.com/Alorel/rollup-plugin-manifest-json/commit/a15d6ed75c1e9cd76136fcc50d1cfbfa76f8857f))
+
 # [1.1.0](https://github.com/Alorel/rollup-plugin-manifest-json/compare/1.0.1...1.1.0) (2020-06-21)
 
 
