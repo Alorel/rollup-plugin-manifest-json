@@ -1,6 +1,6 @@
 {
   "name": "@alorel/rollup-plugin-manifest-json",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Rollup plugin for generating a manifest.json",
   "main": "index.js",
   "module": "index.es.js",
