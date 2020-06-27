@@ -10,8 +10,6 @@ import typescript from 'rollup-plugin-typescript2';
 const distDir = join(__dirname, 'dist');
 const srcDir = join(__dirname, 'src');
 
-const clean$ = cleanPlugin({dir: distDir});
-
 function mkNodeResolve() {
   return nodeResolve({
     mainFields: ['fesm5', 'esm5', 'module', 'browser', 'main'],
