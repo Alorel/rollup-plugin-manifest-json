@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/Alorel/rollup-plugin-manifest-json/compare/1.2.1...1.2.2) (2021-02-27)
+
+
+### Bug Fixes
+
+* **output:** Don't emit internal plugin structure ([fd77f0b](https://github.com/Alorel/rollup-plugin-manifest-json/commit/fd77f0b39fb6f4a7444951a0b4b2d3545d7e3421))
+
 ## [1.2.1](https://github.com/Alorel/rollup-plugin-manifest-json/compare/1.2.0...1.2.1) (2021-02-27)
 
 
