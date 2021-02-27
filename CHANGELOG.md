@@ -1,3 +1,15 @@
+## [1.2.1](https://github.com/Alorel/rollup-plugin-manifest-json/compare/1.2.0...1.2.1) (2021-02-27)
+
+
+### Bug Fixes
+
+* Emit meta file when there are no icons URLs ([8f9738a](https://github.com/Alorel/rollup-plugin-manifest-json/commit/8f9738aa599e946385b045166ad3ff1e8d7bf59c))
+
+
+### Maintenance
+
+* **package:** Add missing rollup peer dependency ([1ef6b00](https://github.com/Alorel/rollup-plugin-manifest-json/commit/1ef6b001ef17983eba1ab04695171aa43acb96a9))
+
 # [1.2.0](https://github.com/Alorel/rollup-plugin-manifest-json/compare/1.1.1...1.2.0) (2020-06-21)
 
 
