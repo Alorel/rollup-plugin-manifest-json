@@ -65,7 +65,7 @@ export function manifestJsonPlugin(opts: ManifestJsonPluginOptions): OutputPlugi
 
       this.emitFile({
         fileName,
-        source: JSON.stringify(renderer, ...stringifyArgs),
+        source: JSON.stringify(renderer.json, ...stringifyArgs),
         type: 'asset'
       });
     },
