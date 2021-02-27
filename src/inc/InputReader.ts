@@ -1,9 +1,7 @@
-import {BoundClass, BoundMethod} from '@aloreljs/bound-decorator';
 import {promises as fs} from 'fs';
 import {ManifestJsonPluginOptions} from '../Options';
 
 /** @internal */
-@BoundClass()
 export class InputReader {
   public changed = true;
 
@@ -23,26 +21,19 @@ export class InputReader {
       ));
   }
 
-  public read(): Promise<string> {
-    return fs.readFile(this.input, 'utf8')
-      .then(this.onReadSuccess, this.onReadError); //tslint:disable-line:no-unbound-method
-  }
+  public async read(): Promise<string> {
+    try {
+      const contents = await fs.readFile(this.input, 'utf8');
+      this.changed = contents !== this.lastReadContents;
+      if (this.changed) {
+        this.processContents(contents);
+      }
 
-  @BoundMethod()
-  private onReadError(e: Error): never {
-    this.changed = true;
-    throw e;
-  }
-
-  @BoundMethod()
-  private onReadSuccess(contents: string): string {
-    this.changed = contents !== this.lastReadContents;
-
-    if (this.changed) {
-      this.processContents(contents);
+      return this.lastProcessedContents;
+    } catch (e) {
+      this.changed = true;
+      throw e;
     }
-
-    return this.lastProcessedContents;
   }
 
   private processContents(contents: string): void {

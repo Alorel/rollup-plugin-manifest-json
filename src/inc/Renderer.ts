@@ -4,19 +4,15 @@ import {PluginContext} from 'rollup';
 import {ManifestJsonPluginOptions} from '../Options';
 import {ImageKey} from './ImageKey';
 import {JsonInput} from './JsonInput';
-import {noop} from './noop';
 import {ReplacedKeys} from './ReplacedKeys';
 
 /** @internal */
 export class Renderer {
-  public hasChanged = false;
+  private _hasChanged = false;
 
-  public readonly replacements: ReplacedKeys = {
-    icons: [],
-    screenshots: []
-  };
+  private _replacements: ReplacedKeys;
 
-  private readonly changeOperations: Promise<any>[] = [];
+  private changeOperations: Promise<any>[];
 
   private ctx: PluginContext;
 
@@ -26,20 +22,32 @@ export class Renderer {
   ) {
   }
 
-  public process(ctx: PluginContext): Promise<void> {
+  public get hasChanged(): boolean {
+    return this._hasChanged;
+  }
+
+  public get replacements(): ReplacedKeys {
+    return this._replacements;
+  }
+
+  public async process(ctx: PluginContext): Promise<void> {
     this.ctx = ctx;
+    this.changeOperations = [];
+    this._replacements = {
+      icons: [],
+      screenshots: []
+    };
+
     this.processImages('icons');
     this.processImages('screenshots');
 
-    if (this.changeOperations.length) {
-      this.hasChanged = true;
+    this._hasChanged = Boolean(this.changeOperations.length);
 
-      return Promise.all(this.changeOperations).then(noop);
-    } else {
-      this.hasChanged = false;
-
-      return Promise.resolve();
+    if (!this._hasChanged) {
+      return;
     }
+
+    await Promise.all(this.changeOperations);
   }
 
   private processImages(key: ImageKey): void {
@@ -59,27 +67,24 @@ export class Renderer {
             }
 
             file.src = assetId;
-            this.replacements[key].push(i);
+            this._replacements[key].push(i);
           })
       );
     }
   }
 
-  private resolveAndReplaceUrl(url: string): Promise<void | string> {
-    return this.ctx.resolve(url, this.opts.input)
-      .then<void | string>(resolved => {
-        if (!resolved || resolved.external) {
-          return;
-        }
+  private async resolveAndReplaceUrl(url: string): Promise<void | string> {
+    const resolved = await this.ctx.resolve(url, this.opts.input);
+    if (!resolved || resolved.external) {
+      return;
+    }
 
-        return fs.readFile(resolved.id)
-          .then<string>(source => {
-            return this.ctx.emitFile({
-              name: `${relative(this.opts.baseDir!, resolved.id)}`,
-              source,
-              type: 'asset'
-            });
-          });
-      });
+    const source = await fs.readFile(resolved.id);
+
+    return this.ctx.emitFile({
+      name: `${relative(this.opts.baseDir!, resolved.id)}`,
+      source,
+      type: 'asset'
+    });
   }
 }

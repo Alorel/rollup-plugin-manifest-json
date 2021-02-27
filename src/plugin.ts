@@ -46,9 +46,13 @@ export function manifestJsonPlugin(opts: ManifestJsonPluginOptions): OutputPlugi
     generateBundle(this: PluginContext) {
       if (!renderer) {
         this.error('Renderer not initialised? Not sure how we got to this stage but I can\'t continue.');
-      } else if (!renderer.hasChanged) {
+      } else if (!reader.changed) {
         return;
-      } else {
+      }
+
+      const stringifyArgs: [any?, number?] = minify ? [] : [null, 2]; //tslint:disable-line:no-magic-numbers
+
+      if (renderer.hasChanged) {
         const {json, replacements} = renderer;
 
         for (const key of ['icons', 'screenshots'] as ImageKey[]) {
@@ -57,32 +61,23 @@ export function manifestJsonPlugin(opts: ManifestJsonPluginOptions): OutputPlugi
             image.src = basePath + this.getFileName(image.src);
           }
         }
-
-        const stringifyArgs: [any, null?, number?] = [json];
-        if (!minify) {
-          stringifyArgs.push(null, 2); //tslint:disable-line:no-magic-numbers
-        }
-
-        const source = JSON.stringify.apply(JSON, stringifyArgs);
-        this.emitFile({
-          fileName,
-          source,
-          type: 'asset'
-        });
       }
+
+      this.emitFile({
+        fileName,
+        source: JSON.stringify(renderer, ...stringifyArgs),
+        type: 'asset'
+      });
     },
     name: 'rollup-plugin-manifest-json',
-    renderStart(this: PluginContext) {
-      return reader.read()
-        .then((contents): void | Promise<void> => {
-          if (reader.changed) {
-            renderer = new Renderer(JSON.parse(contents), opts);
+    async renderStart(this: PluginContext): Promise<void> {
+      const contents = await reader.read();
 
-            return renderer.process(this);
-          } else {
-            renderer.hasChanged = false;
-          }
-        });
+      if (reader.changed) {
+        renderer = new Renderer(JSON.parse(contents), opts);
+      }
+
+      return renderer.process(this);
     }
   };
 
